@@ -41,9 +41,8 @@ operators.forEach(button => {
 // Display result
 let equal = document.querySelector("#equal");
 
-
 equal.addEventListener("click", () => {
-    if (!b) {
+    if (!b && a) {
         b = parseFloat(displayValue.textContent);
         result = operate(operator, a, b);
         displayValue.textContent = result;
