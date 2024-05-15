@@ -3,11 +3,13 @@ let operator;
 let b;
 let result;
 
+
+// Calculator logic and track values
+// Display current number
+
 let displayValue = document.querySelector("#display");
 displayValue.textContent = "0";
 
-// Calculator logic and track values
-// Change number display
 let numbers = document.querySelectorAll(".number");
 
 numbers.forEach(button => {
@@ -18,6 +20,7 @@ numbers.forEach(button => {
     });
 })
 
+// Save first operand value
 let operators = document.querySelectorAll(".operator");
 
 operators.forEach(button => {
@@ -34,9 +37,12 @@ operators.forEach(button => {
     });
 })
 
+// Save second operand value and calculate operation with a, the operator and b
+// Display result
 let equal = document.querySelector("#equal");
 
-equal.addEventListener("click", event => {
+
+equal.addEventListener("click", () => {
     if (!b) {
         b = parseFloat(displayValue.textContent);
         result = operate(operator, a, b);
@@ -52,6 +58,14 @@ equal.addEventListener("click", event => {
     }
 })
 
+// Erase a, b and operator values when AC button is clicked and set calculator display to 0
+let clear = document.querySelector("#clear");
+clear.addEventListener("click",() => {
+    a = null;
+    operator = null;
+    b = null;
+    displayValue.textContent = "0";
+});
 
 function add (a, b) {
     return a + b;
