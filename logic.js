@@ -13,7 +13,7 @@ let numbers = document.querySelectorAll(".number");
 
 numbers.forEach(button => {
     button.addEventListener("click", event => {
-        if (displayValue.textContent == "0") displayValue.textContent = "";
+        if (displayValue.textContent == "0" || displayValue.textContent == "You wish!") displayValue.textContent = "";
         if (operator && !b) displayValue.textContent = "";
         if (operator && a) b = displayValue.textContent + event.target.textContent;
         if (result == displayValue.textContent && a == null) displayValue.textContent = "";
@@ -34,14 +34,24 @@ operators.forEach(button => {
             b = parseFloat(displayValue.textContent);
             console.log(`b: ${b}`);
 
-            result = operate(operator, a, b);
-            console.log(`result: ${result}`);
-            b = null;
+            if (operator == "/" && b == 0) {
+                displayValue.textContent = "You wish!"
+                operator = null;
+                a = null;
+                b = null;
+                result = null;
+            } else {
+                result = operate(operator, a, b);
+                displayValue.textContent = result;     
+                console.log(`result: ${result}`);
+                b = null;
+    
+                a = result;
+                console.log(`a: ${a}`);
+                displayValue.textContent = a;  
+                operator = event.target.textContent;
+            }
 
-            a = result;
-            console.log(`a: ${a}`);
-            displayValue.textContent = a;  
-            operator = event.target.textContent;
         }
         console.log(operator);
     });
@@ -54,8 +64,13 @@ let equal = document.querySelector("#equal");
 equal.addEventListener("click", () => {
     if (a && b && operator) {
         b = parseFloat(b);
-        result = operate(operator, a, b);
-        displayValue.textContent = result;
+        if (operator == "/" && b == 0) {
+            displayValue.textContent = "You wish!";
+        } else {
+            result = operate(operator, a, b);
+            displayValue.textContent = result;
+        }
+
 
         console.log(`b: ${b}`);
         console.log(`result: ${result}`);
@@ -65,8 +80,17 @@ equal.addEventListener("click", () => {
         b = null;
     } else if (a && result) {
         b = parseFloat(displayValue.textContent);
-        result = operate(operator, result, b);
-        displayValue.textContent = result;     
+        if (operator == "/" && b == 0) {
+            displayValue.textContent = "You wish!"
+            operator = null;
+            a = null;
+            b = null;
+            result = null;
+        } else {
+            result = operate(operator, a, b);
+            displayValue.textContent = result;     
+
+        }
     }
 });
 
@@ -76,6 +100,7 @@ clear.addEventListener("click",() => {
     a = null;
     operator = null;
     b = null;
+    result = null;
     displayValue.textContent = "0";
 });
 
