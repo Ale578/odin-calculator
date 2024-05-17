@@ -13,13 +13,16 @@ let numbers = document.querySelectorAll(".number");
 
 numbers.forEach(button => {
     button.addEventListener("click", event => {
-        if (displayValue.textContent == "0" || displayValue.textContent == "You wish!") displayValue.textContent = "";
-        if (operator && !b) displayValue.textContent = "";
-        if (operator && a) b = displayValue.textContent + event.target.textContent;
-        if (result == displayValue.textContent && a == null) displayValue.textContent = "";
-        displayValue.textContent = displayValue.textContent + event.target.textContent;
+        if (displayValue.textContent.length < 14 || operator) {  
+            if (displayValue.textContent == "0" || displayValue.textContent == "You wish!") displayValue.textContent = "";
+            if (operator && !b) displayValue.textContent = "";
+            if (operator && a) b = displayValue.textContent + event.target.textContent;
+            if (result == displayValue.textContent && a == null) displayValue.textContent = "";
+            displayValue.textContent = displayValue.textContent + event.target.textContent;
+        }
     });
 });
+
 
     // Save first operand value
 let operators = document.querySelectorAll(".operator");
@@ -63,7 +66,7 @@ let equal = document.querySelector("#equal");
 
 equal.addEventListener("click", () => {
     if (a && b && operator) {
-        b = parseFloat(b);
+        b = parseFloat(displayValue.textContent);
         if (operator == "/" && b == 0) {
             displayValue.textContent = "You wish!";
         } else {
@@ -88,8 +91,7 @@ equal.addEventListener("click", () => {
             result = null;
         } else {
             result = operate(operator, a, b);
-            displayValue.textContent = result;     
-
+            displayValue.textContent = result;
         }
     }
 });
