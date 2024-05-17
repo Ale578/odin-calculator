@@ -1,6 +1,6 @@
 let a;
 let operator;
-let b = null;
+let b;
 let result;
 
 
@@ -94,7 +94,7 @@ equal.addEventListener("click", () => {
     }
 });
 
-    // Erase a, b and operator values when AC button is clicked and set calculator display to 0
+// Erase a, b and operator values when AC button is clicked and set calculator display to 0
 let clear = document.querySelector("#clear");
 clear.addEventListener("click",() => {
     a = null;
@@ -102,6 +102,16 @@ clear.addEventListener("click",() => {
     b = null;
     result = null;
     displayValue.textContent = "0";
+});
+
+// Change the displayed numbers sign
+let sign = document.querySelector("#sign");
+sign.addEventListener("click", () => {
+    if (displayValue.textContent > 0) {
+        displayValue.textContent = parseFloat("-" + displayValue.textContent);
+    } else if (displayValue.textContent < 0) {
+        displayValue.textContent = displayValue.textContent.replace("-", "");
+    }
 });
 
 function add (a, b) {
