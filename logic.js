@@ -1,7 +1,7 @@
-let a;
-let operator;
-let b;
-let result;
+let firstOperand = null;
+let operator = null;
+let secondOperand = null;
+let result = null;
 
 
 // Calculator logic and track values
@@ -15,9 +15,9 @@ numbers.forEach(button => {
     button.addEventListener("click", event => {
         if (displayValue.textContent.length < 14 || operator) {  
             if (displayValue.textContent == "0" || displayValue.textContent == "You wish!") displayValue.textContent = "";
-            if (operator && !b) displayValue.textContent = "";
-            if (operator && a) b = displayValue.textContent + event.target.textContent;
-            if (result == displayValue.textContent && a == null) displayValue.textContent = "";
+            if (operator && !secondOperand) displayValue.textContent = "";
+            if (operator && firstOperand) secondOperand = displayValue.textContent + event.target.textContent;
+            if (result == displayValue.textContent && firstOperand == null) displayValue.textContent = "";
             displayValue.textContent = displayValue.textContent + event.target.textContent;
         }
     });
@@ -29,29 +29,30 @@ let operators = document.querySelectorAll(".operator");
 
 operators.forEach(button => {
     button.addEventListener("click", event => {
-        if (!a) {
-            a = parseFloat(displayValue.textContent);
-            console.log(`a: ${a}`);
+        if (!firstOperand) {
+           firstOperand = parseFloat(displayValue.textContent);
+            console.log(`firstOperand: ${firstOperand}`);
             operator = event.target.textContent;
         } else {
-            b = parseFloat(displayValue.textContent);
-            console.log(`b: ${b}`);
+            secondOperand = parseFloat(displayValue.textContent);
+            console.log(`secondOperand: ${secondOperand}`);
 
-            if (operator == "/" && b == 0) {
+            if (operator == "/" && secondOperand == 0) {
                 displayValue.textContent = "You wish!"
                 operator = null;
-                a = null;
-                b = null;
+                firstOperand = null;
+                secondOperand = null;
                 result = null;
             } else {
-                result = operate(operator, a, b);
-                displayValue.textContent = result;     
+                result = operate(firstOperand, operator, secondOperand);
+                displayValue.textContent = result; 
+
                 console.log(`result: ${result}`);
-                b = null;
+                secondOperand = null;
     
-                a = result;
-                console.log(`a: ${a}`);
-                displayValue.textContent = a;  
+                firstOperand = result;
+                console.log(`firstOperand: ${firstOperand}`);
+                displayValue.textContent = firstOperand;  
                 operator = event.target.textContent;
             }
 
@@ -65,43 +66,42 @@ operators.forEach(button => {
 let equal = document.querySelector("#equal");
 
 equal.addEventListener("click", () => {
-    if (a && b && operator) {
-        b = parseFloat(displayValue.textContent);
-        if (operator == "/" && b == 0) {
+    if (firstOperand && secondOperand && operator) {
+        secondOperand = parseFloat(displayValue.textContent);
+        if (operator == "/" && secondOperand == 0) {
             displayValue.textContent = "You wish!";
         } else {
-            result = operate(operator, a, b);
+            result = operate(firstOperand, operator, secondOperand);
             displayValue.textContent = result;
         }
 
-
-        console.log(`b: ${b}`);
+        console.log(`secondOperand: ${secondOperand}`);
         console.log(`result: ${result}`);
 
         operator = null;
-        a = null;
-        b = null;
-    } else if (a && result) {
-        b = parseFloat(displayValue.textContent);
-        if (operator == "/" && b == 0) {
+        firstOperand = null;
+        secondOperand = null;
+    } else if (firstOperand && result) {
+        secondOperand = parseFloat(displayValue.textContent);
+        if (operator == "/" && secondOperand == 0) {
             displayValue.textContent = "You wish!"
             operator = null;
-            a = null;
-            b = null;
+           firstOperand = null;
+            secondOperand = null;
             result = null;
         } else {
-            result = operate(operator, a, b);
+            result = operate(firstOperand, operator, secondOperand);
             displayValue.textContent = result;
         }
     }
 });
 
-// Erase a, b and operator values when AC button is clicked and set calculator display to 0
+// Erase a, secondOperand and operator values when AC button is clicked and set calculator display to 0
 let clear = document.querySelector("#clear");
 clear.addEventListener("click",() => {
-    a = null;
+    firstOperand = null;
     operator = null;
-    b = null;
+    secondOperand = null;
     result = null;
     displayValue.textContent = "0";
 });
@@ -116,10 +116,10 @@ sign.addEventListener("click", () => {
     }
 });
 
-function operate (operator, a, b) {
+function operate (a, operator, b) {
     switch (operator) {
         case "+":
-            return a * b;
+            return a + b;
         case "-":
             return a - b;
         case "*":
